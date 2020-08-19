@@ -1,0 +1,42 @@
+﻿@page
+@model TeamApplication.IndexState
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.States[0].UFAbreviation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.States[0].UFName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.States) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UFAbreviation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UFName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.StateId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.StateId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.StateId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
