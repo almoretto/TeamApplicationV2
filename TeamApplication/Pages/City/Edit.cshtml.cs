@@ -41,18 +41,31 @@ namespace TeamApplication
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(City).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                var cityToUpdate = await _context.City.FindAsync(id);
+
+                if (cityToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                if (await TryUpdateModelAsync<City>(
+                    cityToUpdate,
+                    "City",
+                    s => s.CityName,
+                    s => s.StateId))
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToPage("./Index");
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -66,7 +79,7 @@ namespace TeamApplication
                 }
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool CityExists(int id)

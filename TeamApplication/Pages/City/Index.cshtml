@@ -2,22 +2,40 @@
 @model TeamApplication.IndexCity
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "City";
 }
 
-<h1>Index</h1>
+<h2>City</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create City |</a>
+    <a asp-page="/State/Create">Create State</a>
+
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by City Name, State:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Cities[0].CityName)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Cities[0].CityName)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cities[0].State)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.StateSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Cities[0].State.UFAbreviation)
+                </a>
             </th>
             <th></th>
         </tr>

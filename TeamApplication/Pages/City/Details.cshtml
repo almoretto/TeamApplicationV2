@@ -2,13 +2,13 @@
 @model TeamApplication.DetailsCity
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "City Details";
 }
 
-<h1>Details</h1>
+<h2>City Details</h2>
 
 <div>
-    <h4>City</h4>
+    
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -18,7 +18,13 @@
             @Html.DisplayFor(model => model.City.CityName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City.State)
+            @Html.DisplayNameFor(model => model.City.State.UFName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City.State.UFName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City.State.UFAbreviation)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.City.State.UFAbreviation)
