@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TeamApplication.Models;
 using TeamApplication.Data;
+using TeamApplication.Classes;
 using System.Linq;
 using System;
 
@@ -18,28 +19,50 @@ namespace TeamApplication
             _context = context;
         }
         public string NameSort { get; set; }
-        public IList<State> States { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
+        public PaginatedList<State> States { get; set; }
 
-        public async Task OnGetAsync(string sortOrder)
+        public async Task OnGetAsync(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
+            CurrentSort = sortOrder;
+
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-           
-            IQueryable<State> stateIQ = from s in _context.State
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            CurrentFilter = searchString;
+
+            IQueryable<State> statesIQ = from s in _context.State
                                         select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                statesIQ = statesIQ.Where(s => s.UFName.Contains(searchString)
+                                       || s.UFAbreviation.Contains(searchString));
+            }
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    stateIQ = stateIQ.OrderByDescending(s => s.UFName);
+                    statesIQ = statesIQ.OrderByDescending(s => s.UFName);
                     break;
                 default:
-                    stateIQ = stateIQ.OrderBy(s => s.UFName);
+                    statesIQ = statesIQ.OrderBy(s => s.UFName);
                     break;
             }
 
-            States = await stateIQ.AsNoTracking().ToListAsync();
+            int pageSize = 6;
+            States = await PaginatedList<State>.CreateAsync(
+                statesIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+            //States = await stateIQ.AsNoTracking().ToListAsync();
         }
     }
 }
-//

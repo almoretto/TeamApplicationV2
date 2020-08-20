@@ -41,17 +41,22 @@ namespace TeamApplication
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var stateToUpdate = await _context.State.FindAsync(id);
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(State).State = EntityState.Modified;
-
+          // _context.Attach(State).State = EntityState.Modified;
+            
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                var stateToUpdate = await _context.State.FindAsync(id);
+                
+                if (stateToUpdate == null)
+                {
+                    return NotFound();
+                }
+
                 if (await TryUpdateModelAsync<State>(
                     stateToUpdate,
                     "State",
