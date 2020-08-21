@@ -15,7 +15,7 @@ namespace TeamApplication
         {
             _context = context;
         }
-
+        //create a dropdownlist
         public IActionResult OnGet()
         {
         ViewData["StateId"] = new SelectList(_context.State, "StateId", "UFAbreviation");
@@ -29,15 +29,25 @@ namespace TeamApplication
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var emptyCity = new City();
+
             if (!ModelState.IsValid)
             {
                 return Page();
+            } //Method avoiding overposting
+            if (await TryUpdateModelAsync<City>(
+               emptyCity,
+               "City",   // Prefix for form value.
+               s => s.CityName,
+               s => s.StateId))
+            {
+                _context.City.Add(emptyCity);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
             }
 
-            _context.City.Add(City);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

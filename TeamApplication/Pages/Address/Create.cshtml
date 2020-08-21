@@ -1,0 +1,58 @@
+﻿@page
+@model TeamApplication.CreateAddress
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Address</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Address.AddressKind" class="control-label"></label>
+                <select asp-for="Address.AddressKind" class="form-control"></select>
+                <span asp-validation-for="Address.AddressKind" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.Designation" class="control-label"></label>
+                <input asp-for="Address.Designation" class="form-control" />
+                <span asp-validation-for="Address.Designation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.District" class="control-label"></label>
+                <input asp-for="Address.District" class="form-control" />
+                <span asp-validation-for="Address.District" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.Complement" class="control-label"></label>
+                <input asp-for="Address.Complement" class="form-control" />
+                <span asp-validation-for="Address.Complement" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.ZipCode" class="control-label"></label>
+                <input asp-for="Address.ZipCode" class="form-control" />
+                <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.CityId" class="control-label"></label>
+                <select asp-for="Address.CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

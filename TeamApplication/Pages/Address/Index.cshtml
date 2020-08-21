@@ -1,0 +1,66 @@
+﻿@page
+@model TeamApplication.IndexAddress
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Address[0].AddressKind)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address[0].Designation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address[0].District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address[0].Complement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address[0].ZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address[0].City)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Address) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddressKind)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Designation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Complement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.CityName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.AddressId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.AddressId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.AddressId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

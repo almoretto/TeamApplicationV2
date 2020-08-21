@@ -41,20 +41,40 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Cities) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State.UFAbreviation)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.CityId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.CityId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.CityId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Cities)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.UFAbreviation)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.CityId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.CityId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CityId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.Cities.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Cities.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Cities.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Cities.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
