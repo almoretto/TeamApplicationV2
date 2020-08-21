@@ -25,7 +25,7 @@ namespace TeamApplication.Models
         public string Complement { get; set; }
         [Required]
         [StringLength(9, ErrorMessage = "ZipCode is 00000-000 Format.")]
-        [Display(Name = "Complemento:")]
+        [Display(Name = "CEP:")]
         public string ZipCode { get; set; }
         //public string  DesignationGroup { get; private set; }
 

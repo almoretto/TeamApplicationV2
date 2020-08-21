@@ -30,15 +30,30 @@ namespace TeamApplication
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var emptyAddress = new Address();
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+            //Method avoiding overposting
+            if (await TryUpdateModelAsync<Address>(
+                    emptyAddress,
+                    "Address",
+                    s => s.AddressKind,
+                    s => s.Designation,
+                    s => s.District,
+                    s => s.Complement,
+                    s => s.ZipCode,
+                    s => s.CityId))
+            {
+                _context.Address.Add(emptyAddress);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
 
-            _context.Address.Add(Address);
-            await _context.SaveChangesAsync();
+            return Page();
 
-            return RedirectToPage("./Index");
         }
     }
 }

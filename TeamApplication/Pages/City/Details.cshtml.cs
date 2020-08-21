@@ -26,7 +26,8 @@ namespace TeamApplication
             }
 
             City = await _context.City
-                .Include(c => c.State).FirstOrDefaultAsync(m => m.CityId == id);
+                .Include(c => c.State)
+                .FirstOrDefaultAsync(m => m.CityId == id);
 
             if (City == null)
             {

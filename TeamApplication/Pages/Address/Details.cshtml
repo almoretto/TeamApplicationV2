@@ -2,50 +2,62 @@
 @model TeamApplication.DetailsAddress
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Address Details";
 }
 
-<h1>Details</h1>
+<h2>Address Details</h2>
 
 <div>
-    <h4>Address</h4>
+    
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Address.AddressKind)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Address.AddressKind)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Address.Designation)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Address.Designation)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Address.District)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Address.District)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Address.Complement)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Address.Complement)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Address.ZipCode)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Address.ZipCode)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address.City)
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Address.City.CityName)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Address.City.CityName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Address.City.State.UFName)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Address.City.State.UFName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Address.City.State.UFAbreviation)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Address.City.State.UFAbreviation)
         </dd>
     </dl>
 </div>

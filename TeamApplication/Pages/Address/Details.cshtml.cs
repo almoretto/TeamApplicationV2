@@ -26,7 +26,9 @@ namespace TeamApplication
             }
 
             Address = await _context.Address
-                .Include(a => a.City).FirstOrDefaultAsync(m => m.AddressId == id);
+                .Include(a => a.City)
+                .ThenInclude(b => b.State)
+                .FirstOrDefaultAsync(m => m.AddressId == id);
 
             if (Address == null)
             {
