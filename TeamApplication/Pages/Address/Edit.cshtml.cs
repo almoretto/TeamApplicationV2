@@ -11,9 +11,9 @@ namespace TeamApplication
 {
     public class EditAddress : PageModel
     {
-        private readonly TeamApplication.Data.SementesApplicationContext _context;
+        private readonly SementesApplicationContext _context;
 
-        public EditAddress(TeamApplication.Data.SementesApplicationContext context)
+        public EditAddress(SementesApplicationContext context)
         {
             _context = context;
         }
@@ -35,24 +35,41 @@ namespace TeamApplication
             {
                 return NotFound();
             }
-           ViewData["CityId"] = new SelectList(_context.City, "CityId", "CityName");
+            ViewData["CityId"] = new SelectList(_context.City, "CityId", "CityName");
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(Address).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                var addressToUpdate = await _context.Address.FindAsync(id);
+
+                if (addressToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                if (await TryUpdateModelAsync<Address>(
+                    addressToUpdate,
+                    "Address",
+                    s => s.AddressKind,
+                    s => s.Designation,
+                    s => s.District,
+                    s => s.Complement,
+                    s => s.ZipCode,
+                    s => s.CityId))
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToPage("./Index");
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -66,7 +83,7 @@ namespace TeamApplication
                 }
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool AddressExists(int id)

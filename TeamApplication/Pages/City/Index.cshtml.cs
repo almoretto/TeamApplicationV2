@@ -41,7 +41,9 @@ namespace TeamApplication
             }
             CurrentFilter = searchString;
 
-            IQueryable<City> citiesIQ = from s in _context.City.Include(c => c.State) select s;
+            IQueryable<City> citiesIQ = from s in _context.City
+                                        .Include(c => c.State) 
+                                        select s;
             // IEnumerable<City> cities = await _context.City.Include(c => c.State).ToListAsync();
 
             if (!String.IsNullOrEmpty(searchString))
