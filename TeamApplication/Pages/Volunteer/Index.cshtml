@@ -1,0 +1,102 @@
+﻿@page
+@model TeamApplication.IndexVolunteer
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VDocCPF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VDocRG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VBirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VAge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VResumee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VMessagePhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VSocialMidiaProfile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].VActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volunteer[0].Address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Volunteer) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VDocCPF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VDocRG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VBirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VAge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VResumee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VMessagePhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VSocialMidiaProfile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.Designation)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.VolunteerId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.VolunteerId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.VolunteerId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
