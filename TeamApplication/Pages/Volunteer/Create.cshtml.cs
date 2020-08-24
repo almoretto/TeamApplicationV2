@@ -1,5 +1,4 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,7 +18,6 @@ namespace TeamApplication
 
         public IActionResult OnGet()
         {
-            //used to populate a dropdown list
         ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Designation");
             return Page();
         }
@@ -31,26 +29,26 @@ namespace TeamApplication
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            var emptyVolunteer = new Volunteer();
-
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            //Method avoiding overposting
+
+            var emptyVolunteer = new Volunteer();
+
             if (await TryUpdateModelAsync<Volunteer>(
-                    emptyVolunteer,
-                    "Volunteer",
-                   s => s.VDocCPF,
+                emptyVolunteer,
+                "Volunteer",   // Prefix for form value.
+                    s => s.VDocCPF,
                     s => s.VDocRG,
                     s => s.VName,
                     s => s.VBirthDate,
-                    s => s.VActive,
-                    s => s.VEmail,
-                    s => s.VMessagePhone,
-                    s => s.VPhone,
                     s => s.VResumee,
+                    s => s.VPhone,
+                    s => s.VMessagePhone,
+                    s => s.VEmail,
                     s => s.VSocialMidiaProfile,
+                    s => s.VActive,
                     s => s.AddressId))
             {
                 _context.Volunteer.Add(emptyVolunteer);
@@ -59,7 +57,6 @@ namespace TeamApplication
             }
 
             return Page();
-
         }
     }
 }

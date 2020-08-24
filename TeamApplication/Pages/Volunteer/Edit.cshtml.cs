@@ -35,7 +35,7 @@ namespace TeamApplication
             {
                 return NotFound();
             }
-           ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Designation");
+            ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Designation");
             return Page();
         }
 
@@ -66,11 +66,11 @@ namespace TeamApplication
                     s => s.VBirthDate,
                     s => s.VActive,
                     s => s.VEmail,
-                    s=>s.VMessagePhone,
-                    s=>s.VPhone,
-                    s=>s.VResumee,
-                    s=>s.VSocialMidiaProfile,
-                    s=>s.AddressId))
+                    s => s.VMessagePhone,
+                    s => s.VPhone,
+                    s => s.VResumee,
+                    s => s.VSocialMidiaProfile,
+                    s => s.AddressId))
                 {
                     await _context.SaveChangesAsync();
                     return RedirectToPage("./Index");

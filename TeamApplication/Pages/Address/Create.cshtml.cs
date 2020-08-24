@@ -1,5 +1,4 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -35,25 +34,24 @@ namespace TeamApplication
             if (!ModelState.IsValid)
             {
                 return Page();
-            }
-            //Method avoiding overposting
+            } //Method avoiding overposting
             if (await TryUpdateModelAsync<Address>(
-                    emptyAddress,
-                    "Address",
-                    s => s.AddressKind,
-                    s => s.Designation,
-                    s => s.District,
-                    s => s.Complement,
-                    s => s.ZipCode,
-                    s => s.CityId))
+               emptyAddress,
+               "Address",   // Prefix for form value.
+              s => s.AddressKind,
+              s => s.Designation,
+              s => s.District,
+              s => s.Complement,
+              s => s.ZipCode,
+              s => s.CityId))
             {
                 _context.Address.Add(emptyAddress);
                 await _context.SaveChangesAsync();
+
                 return RedirectToPage("./Index");
             }
 
             return Page();
-
         }
     }
 }

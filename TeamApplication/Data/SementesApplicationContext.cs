@@ -14,7 +14,7 @@ namespace TeamApplication.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySQL(
-                @"Server=localhost;Database=TeamAppDB;Uid=root;Pwd=;");
+                @"Server=127.0.0.1;Database=TeamAppDB;Uid=root;Pwd=;");
         }
 
         public DbSet<Address> Address { get; set; }
