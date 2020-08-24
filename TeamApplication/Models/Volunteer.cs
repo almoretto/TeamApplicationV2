@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace TeamApplication.Models
 {
@@ -25,28 +23,12 @@ namespace TeamApplication.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Nascimento: ")]
         public DateTime VBirthDate { get; set; }
-        int age;
+       
         [Display(Name = "Idade: ")]
-        public int VAge
-        {
-            get
-            {
-                age = DateTime.Now.Year - VBirthDate.Year;
-                if (DateTime.Now.DayOfYear < VBirthDate.DayOfYear)
-                {
-                    VAge -= 1;
-                }
-                return age;
-            }
-            private set
-            {
-                VAge=age;
-            }
-
-        }
+        public int VAge  { get; private set; }
         [Required]
         [StringLength(150)]
         [Display(Name = "Currículo: ")]
@@ -79,6 +61,15 @@ namespace TeamApplication.Models
         //Relation Many Volunteers Has Many Teams
         public ICollection<TeamVolunteer> TeamVolunteer { get; set; }
 
-       
+        public Volunteer() { AgeCalculator(); }
+       public void AgeCalculator()
+        {
+            VAge = DateTime.Now.Year - VBirthDate.Year;
+            if (DateTime.Now.DayOfYear < VBirthDate.DayOfYear)
+            {
+                VAge -= 1;
+            }
+            
+        }
     }
 }
