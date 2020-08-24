@@ -26,7 +26,10 @@ namespace TeamApplication
             }
 
             Volunteer = await _context.Volunteer
-                .Include(v => v.Address).FirstOrDefaultAsync(m => m.VolunteerId == id);
+                .Include(t => t.Address)
+                .ThenInclude(u=>u.City)
+                .ThenInclude(v=>v.State)
+                .FirstOrDefaultAsync(m => m.VolunteerId == id);
 
             if (Volunteer == null)
             {

@@ -19,6 +19,7 @@ namespace TeamApplication
 
         public IActionResult OnGet()
         {
+            //used to populate a dropdown list
         ViewData["AddressId"] = new SelectList(_context.Address, "AddressId", "Designation");
             return Page();
         }
@@ -30,15 +31,35 @@ namespace TeamApplication
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var emptyVolunteer = new Volunteer();
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+            //Method avoiding overposting
+            if (await TryUpdateModelAsync<Volunteer>(
+                    emptyVolunteer,
+                    "Volunteer",
+                   s => s.VDocCPF,
+                    s => s.VDocRG,
+                    s => s.VName,
+                    s => s.VBirthDate,
+                    s => s.VActive,
+                    s => s.VEmail,
+                    s => s.VMessagePhone,
+                    s => s.VPhone,
+                    s => s.VResumee,
+                    s => s.VSocialMidiaProfile,
+                    s => s.AddressId))
+            {
+                _context.Volunteer.Add(emptyVolunteer);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
 
-            _context.Volunteer.Add(Volunteer);
-            await _context.SaveChangesAsync();
+            return Page();
 
-            return RedirectToPage("./Index");
         }
     }
 }

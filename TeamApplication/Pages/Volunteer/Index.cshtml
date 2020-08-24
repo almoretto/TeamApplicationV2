@@ -2,101 +2,109 @@
 @model TeamApplication.IndexVolunteer
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Volunteers";
 }
 
-<h1>Index</h1>
+<h2>Volunteers</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create Volunteer |</a>
+    <a asp-page="/Address/Create">Create Address |</a>
+    <a asp-page="/City/Create">Create City</a>
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Volunteer Name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VDocCPF)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Volunteers[0].VName)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VDocRG)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Volunteers[0].VBirthDate)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VName)
+                @Html.DisplayNameFor(model => model.Volunteers[0].VAge)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VBirthDate)
+                @Html.DisplayNameFor(model => model.Volunteers[0].VPhone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VAge)
+                @Html.DisplayNameFor(model => model.Volunteers[0].VMessagePhone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VResumee)
+                @Html.DisplayNameFor(model => model.Volunteers[0].VEmail)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VMessagePhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VSocialMidiaProfile)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].VActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Volunteer[0].Address)
+                @Html.DisplayNameFor(model => model.Volunteers[0].VActive)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Volunteer) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VDocCPF)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VDocRG)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VBirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VResumee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VMessagePhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VSocialMidiaProfile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.Designation)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.VolunteerId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.VolunteerId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.VolunteerId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Volunteers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VBirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VAge)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VMessagePhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VActive)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.VolunteerId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.VolunteerId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.VolunteerId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.Volunteers.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Volunteers.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Volunteers.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Volunteers.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

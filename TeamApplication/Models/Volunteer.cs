@@ -26,8 +26,10 @@ namespace TeamApplication.Models
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Nascimento: ")]
         public DateTime VBirthDate { get; set; }
         int age;
+        [Display(Name = "Idade: ")]
         public int VAge
         {
             get
@@ -51,10 +53,10 @@ namespace TeamApplication.Models
         public string VResumee { get; set; }
         [Required]
         [StringLength(15)]
-        [Display(Name = "Telefone (ddd) 99999-9999: ")]
+        [Display(Name = "Telefone: ")]
         public string VPhone { get; set; }
 
-        [Display(Name = "Selecione se for telefone de mensagem: ")]
+        [Display(Name = "Menssagens: ")]
         public bool VMessagePhone { get; set; }
         [Required]
         [StringLength(50)]
@@ -63,7 +65,7 @@ namespace TeamApplication.Models
         [StringLength(50)]
         [Display(Name = "Mídia Social: ")]
         public string VSocialMidiaProfile { get; set; }
-        [Display(Name = "Voluntário Ativo?: ")]
+        [Display(Name = "Ativo?: ")]
         public bool VActive { get; set; }
 
         //Relationship One volunteer has one Address

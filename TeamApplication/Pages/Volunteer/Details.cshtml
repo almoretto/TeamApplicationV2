@@ -2,13 +2,12 @@
 @model TeamApplication.DetailsVolunteer
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Voluntter Detail";
 }
 
-<h1>Details</h1>
+<h2>Volunteer Detail</h2>
 
 <div>
-    <h4>Volunteer</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -81,7 +80,38 @@
             @Html.DisplayNameFor(model => model.Volunteer.Address)
         </dt>
         <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Address.AddressKind)
             @Html.DisplayFor(model => model.Volunteer.Address.Designation)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Address.District)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Address.District)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Address.Complement)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Address.Complement)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Address.ZipCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Address.ZipCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Address.City.CityName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Address.City.CityName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Volunteer.Address.City.State.UFAbreviation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Volunteer.Address.City.State.UFAbreviation)
         </dd>
     </dl>
 </div>
