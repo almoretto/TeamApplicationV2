@@ -35,7 +35,7 @@ namespace TeamApplication
             }
 
             var emptyVolunteer = new Volunteer();
-
+            
             if (await TryUpdateModelAsync<Volunteer>(
                 emptyVolunteer,
                 "Volunteer",   // Prefix for form value.
@@ -51,6 +51,7 @@ namespace TeamApplication
                     s => s.VActive,
                     s => s.AddressId))
             {
+                emptyVolunteer.AgeCalculator();
                 _context.Volunteer.Add(emptyVolunteer);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");

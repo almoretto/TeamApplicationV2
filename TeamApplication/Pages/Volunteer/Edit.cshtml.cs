@@ -29,7 +29,8 @@ namespace TeamApplication
             }
 
             Volunteer = await _context.Volunteer
-                .Include(v => v.Address).FirstOrDefaultAsync(m => m.VolunteerId == id);
+                .Include(v => v.Address)
+                .FirstOrDefaultAsync(m => m.VolunteerId == id);
 
             if (Volunteer == null)
             {
@@ -51,6 +52,7 @@ namespace TeamApplication
                 }
 
                 var volunteerToUpdate = await _context.Volunteer.FindAsync(id);
+                
 
                 if (volunteerToUpdate == null)
                 {
@@ -72,6 +74,7 @@ namespace TeamApplication
                     s => s.VSocialMidiaProfile,
                     s => s.AddressId))
                 {
+                    volunteerToUpdate.AgeCalculator();
                     await _context.SaveChangesAsync();
                     return RedirectToPage("./Index");
                 }

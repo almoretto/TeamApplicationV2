@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -61,13 +62,21 @@ namespace TeamApplication.Models
         //Relation Many Volunteers Has Many Teams
         public ICollection<TeamVolunteer> TeamVolunteer { get; set; }
 
-        public Volunteer() { AgeCalculator(); }
        public void AgeCalculator()
         {
-            VAge = DateTime.Now.Year - VBirthDate.Year;
-            if (DateTime.Now.DayOfYear < VBirthDate.DayOfYear)
+            int age = DateTime.Now.Year - VBirthDate.Year;
+            string day, month, year;
+            day = VBirthDate.Day.ToString();
+            month = VBirthDate.Month.ToString();
+            year = DateTime.Now.Year.ToString();
+            var aniverssary = DateTime.Parse(day + "/" + month + "/" + year);
+            if (DateTime.Now<aniverssary)
             {
-                VAge -= 1;
+                VAge = age- 1;
+            }
+            else
+            {
+                VAge = age;
             }
             
         }
