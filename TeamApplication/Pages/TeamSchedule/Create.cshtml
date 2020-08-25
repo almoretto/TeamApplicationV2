@@ -1,0 +1,41 @@
+﻿@page
+@model TeamApplication.CreateSchedule
+@{
+    ViewData["Title"] = "Create Schedule";
+}
+
+<h2>Create Schedule</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TeamSchedule.TSDate" class="control-label"></label>
+                <input asp-for="TeamSchedule.TSDate" class="form-control" />
+                <span asp-validation-for="TeamSchedule.TSDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamSchedule.TSPeriod" class="control-label"></label>
+                <input asp-for="TeamSchedule.TSPeriod" class="form-control" />
+                <span asp-validation-for="TeamSchedule.TSPeriod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamSchedule.VolunteerId" class="control-label"></label>
+                <select asp-for="TeamSchedule.VolunteerId" class ="form-control" asp-items="ViewBag.VolunteerId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -64,8 +64,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\TeamSchedule\" />
-  </ItemGroup>
-
 </Project>
