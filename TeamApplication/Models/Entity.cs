@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 
 namespace TeamApplication.Models
@@ -15,17 +16,17 @@ namespace TeamApplication.Models
 
         [Required]
         [EnumDataType(typeof(DayOfWeek))]
-        [Display(Name = "Dia da semana que ocorre a vista: ")]
+        [Display(Name = "Dia da vista: ")]
         public DayOfWeek VisitDay { get; set; }
 
         [Required]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = false)]
         [Display(Name = "Horário de visita: ")]
         public DateTime VisitTime { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = false)]
         [Display(Name = "Duração Máxima: ")]
         public TimeSpan VisitDuration { get; set; }
 
@@ -44,7 +45,7 @@ namespace TeamApplication.Models
         public string Contact { get; set; }
         [Required]
         [StringLength(15)]
-        [Display(Name = "Telefone (ddd) 99999-9999: ")]
+        [Display(Name = "Telefone: ")]
         public string Phone { get; set; }
         [Required]
         [StringLength(50)]

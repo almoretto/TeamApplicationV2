@@ -10,11 +10,11 @@ namespace TeamApplication.Models
        
         [DataType(DataType.Date)]
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Data disponível:")]
+        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Data :")]
         public DateTime TSDate { get; set; }
         [Required]
-        [Display(Name = "Período Disponível na data (M,T,N):")]
+        [Display(Name = "Período:")]
         public char TSPeriod { get; set; }
 
         //Relationship Volunteer Has many TeamSchedule

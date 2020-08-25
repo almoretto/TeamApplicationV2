@@ -1,0 +1,78 @@
+﻿@page
+@model TeamApplication.EditEntity
+
+@{
+    ViewData["Title"] = "Edit Entity";
+}
+
+<h2>Edit Entity</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Entity.EntityId" />
+            <div class="form-group">
+                <label asp-for="Entity.EntityName" class="control-label"></label>
+                <input asp-for="Entity.EntityName" class="form-control" />
+                <span asp-validation-for="Entity.EntityName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.VisitDay" class="control-label"></label>
+                <select asp-for="Entity.VisitDay" asp-items="Html.GetEnumSelectList<TeamApplication.Models.DaysOfWeek>()" class="form-control">
+                    <option value="">Choose a type</option>
+                </select>
+                <span asp-validation-for="Entity.VisitDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.VisitTime" class="control-label"></label>
+                <input asp-for="Entity.VisitTime" class="form-control" />
+                <span asp-validation-for="Entity.VisitTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.VisitDuration" class="control-label"></label>
+                <input asp-for="Entity.VisitDuration" class="form-control" />
+                <span asp-validation-for="Entity.VisitDuration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.VisitScale" class="control-label"></label>
+                <select asp-for="Entity.VisitScale" asp-items="Html.GetEnumSelectList<TeamApplication.Models.VisitScale>()" class="form-control">
+                    <option value="">Choose a type</option>
+                </select>
+                <span asp-validation-for="Entity.VisitScale" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.MaxVolunteer" class="control-label"></label>
+                <input asp-for="Entity.MaxVolunteer" class="form-control" />
+                <span asp-validation-for="Entity.MaxVolunteer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.Contact" class="control-label"></label>
+                <input asp-for="Entity.Contact" class="form-control" />
+                <span asp-validation-for="Entity.Contact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.Phone" class="control-label"></label>
+                <input asp-for="Entity.Phone" class="form-control" />
+                <span asp-validation-for="Entity.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entity.Email" class="control-label"></label>
+                <input asp-for="Entity.Email" class="form-control" />
+                <span asp-validation-for="Entity.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

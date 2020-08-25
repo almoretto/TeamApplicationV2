@@ -65,7 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Volunteer\Bkp\" />
+    <Folder Include="Pages\TeamSchedule\" />
   </ItemGroup>
 
 </Project>

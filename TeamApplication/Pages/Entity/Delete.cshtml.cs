@@ -1,25 +1,27 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using TeamApplication.Data;
 using TeamApplication.Models;
+using TeamApplication.Data;
+using System.Text;
 
 namespace TeamApplication
 {
-    public class DeleteVolunteer : PageModel
+    public class DeleteEntity : PageModel
     {
         private readonly SementesApplicationContext _context;
 
-        public DeleteVolunteer(SementesApplicationContext context)
+        public DeleteEntity(SementesApplicationContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Volunteer Volunteer { get; set; }
+        public Entity Entity { get; set; }
         public string ErrorMessage { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
             if (id == null)
@@ -27,11 +29,10 @@ namespace TeamApplication
                 return NotFound();
             }
 
-            Volunteer = await _context.Volunteer
-                .Include(v => v.Address)
-                .FirstOrDefaultAsync(m => m.VolunteerId == id);
+            Entity = await _context.Entity
+                .FirstOrDefaultAsync(m => m.EntityId == id);
 
-            if (Volunteer == null)
+            if (Entity == null)
             {
                 return NotFound();
             }
@@ -50,16 +51,16 @@ namespace TeamApplication
                 return NotFound();
             }
 
-            var volunteerToRemove = await _context.Volunteer.FindAsync(id);
-            //Volunteer = await _context.Volunteer.FindAsync(id);
-            if (volunteerToRemove == null)
+            var entityToRemove = await _context.Entity.FindAsync(id);
+
+            if (entityToRemove == null)
             {
                 return NotFound();
             }
 
             try
             {
-                _context.Volunteer.Remove(volunteerToRemove);
+                _context.Entity.Remove(entityToRemove);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
