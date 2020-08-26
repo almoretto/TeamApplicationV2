@@ -9,19 +9,19 @@ using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
 
-namespace TeamApplication
+namespace TeamApplication.Pages.Schedule
 {
-    public class EditScedule : PageModel
+    public class EditModel : PageModel
     {
-        private readonly SementesApplicationContext _context;
+        private readonly TeamApplication.Data.SementesApplicationContext _context;
 
-        public EditScedule(SementesApplicationContext context)
+        public EditModel(TeamApplication.Data.SementesApplicationContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public TeamSchedule TeamSchedule { get; set; }
+        public Schedule Schedule { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,10 +30,10 @@ namespace TeamApplication
                 return NotFound();
             }
 
-            TeamSchedule = await _context.TeamSchedule
-                .Include(t => t.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
+            Schedule = await _context.Schedule
+                .Include(s => s.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
 
-            if (TeamSchedule == null)
+            if (Schedule == null)
             {
                 return NotFound();
             }
@@ -50,7 +50,7 @@ namespace TeamApplication
                 return Page();
             }
 
-            _context.Attach(TeamSchedule).State = EntityState.Modified;
+            _context.Attach(Schedule).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace TeamApplication
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TeamScheduleExists(TeamSchedule.TeamScheduleId))
+                if (!ScheduleExists(Schedule.TeamScheduleId))
                 {
                     return NotFound();
                 }
@@ -71,9 +71,9 @@ namespace TeamApplication
             return RedirectToPage("./Index");
         }
 
-        private bool TeamScheduleExists(int id)
+        private bool ScheduleExists(int id)
         {
-            return _context.TeamSchedule.Any(e => e.TeamScheduleId == id);
+            return _context.Schedule.Any(e => e.TeamScheduleId == id);
         }
     }
 }

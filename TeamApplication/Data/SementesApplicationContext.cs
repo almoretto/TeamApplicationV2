@@ -23,7 +23,7 @@ namespace TeamApplication.Data
         public DbSet<Job> Job { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<Team> Team { get; set; }
-        public DbSet<TeamSchedule> TeamSchedule { get; set; }
+        public DbSet<Schedule> Schedule { get; set; }
         public DbSet<TeamVolunteer> TeamVolunteer { get; set; }
         public DbSet<Volunteer> Volunteer { get; set; }
 

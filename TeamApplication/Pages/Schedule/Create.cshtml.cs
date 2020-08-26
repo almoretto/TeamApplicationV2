@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TeamApplication.Data;
 using TeamApplication.Models;
 
-namespace TeamApplication
+namespace TeamApplication.Pages.Schedule
 {
-    public class CreateSchedule : PageModel
+    public class CreateModel : PageModel
     {
-        private readonly SementesApplicationContext _context;
+        private readonly TeamApplication.Data.SementesApplicationContext _context;
 
-        public CreateSchedule(SementesApplicationContext context)
+        public CreateModel(TeamApplication.Data.SementesApplicationContext context)
         {
             _context = context;
         }
@@ -26,7 +26,7 @@ namespace TeamApplication
         }
 
         [BindProperty]
-        public TeamSchedule TeamSchedule { get; set; }
+        public Schedule Schedule { get; set; }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
@@ -37,7 +37,7 @@ namespace TeamApplication
                 return Page();
             }
 
-            _context.TeamSchedule.Add(TeamSchedule);
+            _context.Schedule.Add(Schedule);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

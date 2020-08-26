@@ -8,18 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
 
-namespace TeamApplication
+namespace TeamApplication.Pages.Schedule
 {
-    public class DetailsSchedule : PageModel
+    public class DetailsModel : PageModel
     {
-        private readonly SementesApplicationContext _context;
+        private readonly TeamApplication.Data.SementesApplicationContext _context;
 
-        public DetailsSchedule(SementesApplicationContext context)
+        public DetailsModel(TeamApplication.Data.SementesApplicationContext context)
         {
             _context = context;
         }
 
-        public TeamSchedule TeamSchedule { get; set; }
+        public Schedule Schedule { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,10 +28,10 @@ namespace TeamApplication
                 return NotFound();
             }
 
-            TeamSchedule = await _context.TeamSchedule
-                .Include(t => t.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
+            Schedule = await _context.Schedule
+                .Include(s => s.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
 
-            if (TeamSchedule == null)
+            if (Schedule == null)
             {
                 return NotFound();
             }

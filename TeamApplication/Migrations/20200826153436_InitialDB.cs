@@ -4,7 +4,7 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace TeamApplication.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -167,20 +167,20 @@ namespace TeamApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamSchedule",
+                name: "Schedule",
                 columns: table => new
                 {
                     TeamScheduleId = table.Column<int>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     TSDate = table.Column<DateTime>(nullable: false),
-                    TSPeriod = table.Column<int>(nullable: false),
+                    TSPeriod = table.Column<string>(maxLength: 1, nullable: false),
                     VolunteerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamSchedule", x => x.TeamScheduleId);
+                    table.PrimaryKey("PK_Schedule", x => x.TeamScheduleId);
                     table.ForeignKey(
-                        name: "FK_TeamSchedule_Volunteer_VolunteerId",
+                        name: "FK_Schedule_Volunteer_VolunteerId",
                         column: x => x.VolunteerId,
                         principalTable: "Volunteer",
                         principalColumn: "VolunteerId",
@@ -229,15 +229,15 @@ namespace TeamApplication.Migrations
                 column: "EntityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Schedule_VolunteerId",
+                table: "Schedule",
+                column: "VolunteerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Team_JobId",
                 table: "Team",
                 column: "JobId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamSchedule_VolunteerId",
-                table: "TeamSchedule",
-                column: "VolunteerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamVolunteer_TeamId",
@@ -264,7 +264,7 @@ namespace TeamApplication.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TeamSchedule");
+                name: "Schedule");
 
             migrationBuilder.DropTable(
                 name: "TeamVolunteer");

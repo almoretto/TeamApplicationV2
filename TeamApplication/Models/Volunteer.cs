@@ -57,7 +57,7 @@ namespace TeamApplication.Models
         public Address Address { get; set; }
 
         //One Volunteers Has Many TeamSchedule
-        public ICollection<TeamSchedule> TeamSchedules { get; set; }
+        public ICollection<Schedule> TeamSchedules { get; set; }
 
         //Relation Many Volunteers Has Many Teams
         public ICollection<TeamVolunteer> TeamVolunteer { get; set; }

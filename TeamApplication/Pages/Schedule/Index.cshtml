@@ -1,11 +1,11 @@
 ﻿@page
-@model TeamApplication.IndexSchedule
+@model TeamApplication.Pages.Schedule.IndexModel
 
 @{
-    ViewData["Title"] = "Schedules";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Schedules</h2>
+<h1>Index</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,19 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TeamSchedule[0].TSDate)
+                @Html.DisplayNameFor(model => model.Schedule[0].TSDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeamSchedule[0].TSPeriod)
+                @Html.DisplayNameFor(model => model.Schedule[0].TSPeriod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeamSchedule[0].Volunteer)
+                @Html.DisplayNameFor(model => model.Schedule[0].Volunteer)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.TeamSchedule) {
+@foreach (var item in Model.Schedule) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.TSDate)

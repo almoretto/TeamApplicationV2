@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TeamApplication.Models
 {
-    public class TeamSchedule
+    public class Schedule
     {
         [Key]
         public int TeamScheduleId { get; set; }
@@ -15,7 +15,8 @@ namespace TeamApplication.Models
         public DateTime TSDate { get; set; }
         [Required]
         [Display(Name = "Período:")]
-        public char TSPeriod { get; set; }
+        [StringLength(1)]
+        public string TSPeriod { get; set; }
 
         //Relationship Volunteer Has many TeamSchedule
         [Required]

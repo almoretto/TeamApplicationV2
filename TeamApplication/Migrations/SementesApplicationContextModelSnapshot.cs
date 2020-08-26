@@ -151,6 +151,30 @@ namespace TeamApplication.Migrations
                     b.ToTable("Job");
                 });
 
+            modelBuilder.Entity("TeamApplication.Models.Schedule", b =>
+                {
+                    b.Property<int>("TeamScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TSDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("TSPeriod")
+                        .IsRequired()
+                        .HasColumnType("varchar(1)")
+                        .HasMaxLength(1);
+
+                    b.Property<int>("VolunteerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TeamScheduleId");
+
+                    b.HasIndex("VolunteerId");
+
+                    b.ToTable("Schedule");
+                });
+
             modelBuilder.Entity("TeamApplication.Models.State", b =>
                 {
                     b.Property<int>("StateId")
@@ -187,28 +211,6 @@ namespace TeamApplication.Migrations
                         .IsUnique();
 
                     b.ToTable("Team");
-                });
-
-            modelBuilder.Entity("TeamApplication.Models.TeamSchedule", b =>
-                {
-                    b.Property<int>("TeamScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TSDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<char>("TSPeriod")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VolunteerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TeamScheduleId");
-
-                    b.HasIndex("VolunteerId");
-
-                    b.ToTable("TeamSchedule");
                 });
 
             modelBuilder.Entity("TeamApplication.Models.TeamVolunteer", b =>
@@ -327,20 +329,20 @@ namespace TeamApplication.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TeamApplication.Models.Schedule", b =>
+                {
+                    b.HasOne("TeamApplication.Models.Volunteer", "Volunteer")
+                        .WithMany("TeamSchedules")
+                        .HasForeignKey("VolunteerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TeamApplication.Models.Team", b =>
                 {
                     b.HasOne("TeamApplication.Models.Job", "Job")
                         .WithOne("Team")
                         .HasForeignKey("TeamApplication.Models.Team", "JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TeamApplication.Models.TeamSchedule", b =>
-                {
-                    b.HasOne("TeamApplication.Models.Volunteer", "Volunteer")
-                        .WithMany("TeamSchedules")
-                        .HasForeignKey("VolunteerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,23 +1,26 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
 
-namespace TeamApplication
+namespace TeamApplication.Pages.Schedule
 {
-    public class DeleteSchedule : PageModel
+    public class DeleteModel : PageModel
     {
-        private readonly SementesApplicationContext _context;
+        private readonly TeamApplication.Data.SementesApplicationContext _context;
 
-        public DeleteSchedule(SementesApplicationContext context)
+        public DeleteModel(TeamApplication.Data.SementesApplicationContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public TeamSchedule TeamSchedule { get; set; }
+        public Schedule Schedule { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -26,10 +29,10 @@ namespace TeamApplication
                 return NotFound();
             }
 
-            TeamSchedule = await _context.TeamSchedule
-                .Include(t => t.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
+            Schedule = await _context.Schedule
+                .Include(s => s.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
 
-            if (TeamSchedule == null)
+            if (Schedule == null)
             {
                 return NotFound();
             }
@@ -43,11 +46,11 @@ namespace TeamApplication
                 return NotFound();
             }
 
-            TeamSchedule = await _context.TeamSchedule.FindAsync(id);
+            Schedule = await _context.Schedule.FindAsync(id);
 
-            if (TeamSchedule != null)
+            if (Schedule != null)
             {
-                _context.TeamSchedule.Remove(TeamSchedule);
+                _context.Schedule.Remove(Schedule);
                 await _context.SaveChangesAsync();
             }
 
