@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
 
-namespace TeamApplication.Pages.Schedule
+namespace TeamApplication
 {
-    public class EditModel : PageModel
+    public class EditSchedule : PageModel
     {
-        private readonly TeamApplication.Data.SementesApplicationContext _context;
+        private readonly SementesApplicationContext _context;
 
-        public EditModel(TeamApplication.Data.SementesApplicationContext context)
+        public EditSchedule(SementesApplicationContext context)
         {
             _context = context;
         }
@@ -31,30 +31,47 @@ namespace TeamApplication.Pages.Schedule
             }
 
             Schedule = await _context.Schedule
-                .Include(s => s.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
+                .Include(s => s.Volunteer)
+                .FirstOrDefaultAsync(m => m.TeamScheduleId == id);
 
             if (Schedule == null)
             {
                 return NotFound();
             }
-           ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerId", "VDocCPF");
+           ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerId", "VName");
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(Schedule).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                var scheduleToUpdate = await _context.Schedule.FindAsync(id);
+
+
+                if (scheduleToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                if (await TryUpdateModelAsync<Schedule>(
+                    scheduleToUpdate,
+                    "Schedule",
+                    s => s.TSDate,
+                    s => s.TSPeriod,
+                    s => s.VolunteerId))
+                {
+                    
+                    await _context.SaveChangesAsync();
+                    return RedirectToPage("./Index");
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -68,7 +85,7 @@ namespace TeamApplication.Pages.Schedule
                 }
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool ScheduleExists(int id)

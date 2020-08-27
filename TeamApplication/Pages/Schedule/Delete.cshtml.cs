@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,21 +6,22 @@ using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
 
-namespace TeamApplication.Pages.Schedule
+namespace TeamApplication
 {
-    public class DeleteModel : PageModel
+    public class DeleteSchedule : PageModel
     {
-        private readonly TeamApplication.Data.SementesApplicationContext _context;
+        private readonly SementesApplicationContext _context;
 
-        public DeleteModel(TeamApplication.Data.SementesApplicationContext context)
+        public DeleteSchedule(SementesApplicationContext context)
         {
             _context = context;
         }
 
         [BindProperty]
         public Schedule Schedule { get; set; }
+        public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
@@ -30,12 +29,19 @@ namespace TeamApplication.Pages.Schedule
             }
 
             Schedule = await _context.Schedule
-                .Include(s => s.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
+                .Include(s => s.Volunteer)
+                .FirstOrDefaultAsync(m => m.TeamScheduleId == id);
 
             if (Schedule == null)
             {
                 return NotFound();
             }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ErrorMessage = "Could not perform Delete on record id: " + id;
+            }
+
             return Page();
         }
 
@@ -46,15 +52,28 @@ namespace TeamApplication.Pages.Schedule
                 return NotFound();
             }
 
-            Schedule = await _context.Schedule.FindAsync(id);
-
-            if (Schedule != null)
+            var scheduleToRemove = await _context.Schedule.FindAsync(id);
+            if (scheduleToRemove==null)
             {
-                _context.Schedule.Remove(Schedule);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
+            try
+            {
+                _context.Schedule.Remove(scheduleToRemove);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(ErrorMessage);
+                sb.AppendLine(ex.ToString());
 
-            return RedirectToPage("./Index");
+                ErrorMessage = sb.ToString();
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction("./Delete",
+                                     new { id, saveChangesError = true });
+            }
         }
     }
 }

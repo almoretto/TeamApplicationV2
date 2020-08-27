@@ -47,16 +47,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EntityName)
+                    <small>@Html.DisplayFor(modelItem => item.EntityName)</small> 
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Contact)
+                    <small>@Html.DisplayFor(modelItem => item.Contact)</small>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
+                    <small>@Html.DisplayFor(modelItem => item.Phone)</small>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    <small>@Html.DisplayFor(modelItem => item.Email)</small>
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.EntityId">Edit</a> |

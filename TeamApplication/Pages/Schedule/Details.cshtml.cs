@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,34 +6,36 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
+using TeamApplication.Classes;
 
-namespace TeamApplication.Pages.Schedule
+namespace TeamApplication
 {
-    public class DetailsModel : PageModel
+    public class DetailsSchedule : PageModel
     {
-        private readonly TeamApplication.Data.SementesApplicationContext _context;
+        private readonly SementesApplicationContext _context;
 
-        public DetailsModel(TeamApplication.Data.SementesApplicationContext context)
+        public DetailsSchedule(SementesApplicationContext context)
         {
             _context = context;
         }
 
-        public Schedule Schedule { get; set; }
+        public PaginatedList<Schedule> Schedules { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, int? pageIndex)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            
+            IQueryable<Schedule> schedulesIQ = from s in _context.Schedule
+                        .Include(t => t.Volunteer)
+                        .Where(u => u.VolunteerId == id)
+                        .OrderBy(v => v.Volunteer.VName)
+                                               select s;
 
-            Schedule = await _context.Schedule
-                .Include(s => s.Volunteer).FirstOrDefaultAsync(m => m.TeamScheduleId == id);
 
-            if (Schedule == null)
-            {
-                return NotFound();
-            }
+            int pageSize = 10;
+            
+            Schedules = await PaginatedList<Schedule>.CreateAsync(
+                schedulesIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+            
             return Page();
         }
     }

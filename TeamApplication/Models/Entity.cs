@@ -11,7 +11,7 @@ namespace TeamApplication.Models
         public int EntityId { get; set; }
         [Required]
         [StringLength(50)]
-        [Display(Name = "Nome da Entidade: ")]
+        [Display(Name = "Entidade: ")]
         public string EntityName { get; set; }
 
         [Required]
@@ -41,7 +41,7 @@ namespace TeamApplication.Models
 
         [Required]
         [StringLength(30)]
-        [Display(Name = "Contato na entidade: ")]
+        [Display(Name = "Contato: ")]
         public string Contact { get; set; }
         [Required]
         [StringLength(15)]

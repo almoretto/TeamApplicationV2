@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TeamApplication.Data;
 using TeamApplication.Models;
 
-namespace TeamApplication.Pages.Schedule
+namespace TeamApplication
 {
-    public class CreateModel : PageModel
+    public class CreateSchedule : PageModel
     {
-        private readonly TeamApplication.Data.SementesApplicationContext _context;
+        private readonly SementesApplicationContext _context;
 
-        public CreateModel(TeamApplication.Data.SementesApplicationContext context)
+        public CreateSchedule(SementesApplicationContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet()
         {
-        ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerId", "VDocCPF");
+            ViewData["VolunteerId"] = new SelectList(_context.Volunteer, "VolunteerId", "VName");
             return Page();
         }
 
@@ -36,11 +33,21 @@ namespace TeamApplication.Pages.Schedule
             {
                 return Page();
             }
+            var emptySchedule = new Schedule();
 
-            _context.Schedule.Add(Schedule);
-            await _context.SaveChangesAsync();
+            if (await TryUpdateModelAsync<Schedule>(
+                emptySchedule,
+                "Schedule",   // Prefix for form value.
+                    s => s.TSDate,
+                    s => s.TSPeriod,
+                    s => s.VolunteerId))
+            {
+                _context.Schedule.Add(emptySchedule);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

@@ -1,30 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
+using TeamApplication.Classes;
 
-namespace TeamApplication.Pages.Schedule
+namespace TeamApplication
 {
-    public class IndexModel : PageModel
+    public class IndexSchedule : PageModel
     {
-        private readonly TeamApplication.Data.SementesApplicationContext _context;
+        private readonly SementesApplicationContext _context;
 
-        public IndexModel(TeamApplication.Data.SementesApplicationContext context)
+        public IndexSchedule(SementesApplicationContext context)
         {
             _context = context;
         }
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
+        public PaginatedList<Schedule> Schedules { get; set; }
 
-        public IList<Schedule> Schedule { get;set; }
-
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            Schedule = await _context.Schedule
-                .Include(s => s.Volunteer).ToListAsync();
+            CurrentSort = sortOrder;
+
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            CurrentFilter = searchString;
+
+            IQueryable<Schedule> schedulesIQ = from s in _context.Schedule
+                                              .Include(c => c.Volunteer)
+                                               select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                schedulesIQ = schedulesIQ.Where(s => s.Volunteer.VName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    schedulesIQ = schedulesIQ.OrderByDescending(s => s.Volunteer.VName);
+                    break;
+                case "date_desc":
+                    schedulesIQ = schedulesIQ.OrderByDescending(s => s.TSDate);
+                    break;
+                case "Date":
+                    schedulesIQ = schedulesIQ.OrderBy(s => s.TSDate);
+                    break;
+                default:
+                    schedulesIQ = schedulesIQ.OrderBy(s => s.Volunteer.VName);
+                    break;
+            }
+
+            int pageSize = 6;
+            //cities = citiesIQ;
+            Schedules = await PaginatedList<Schedule>.CreateAsync(
+                schedulesIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }
