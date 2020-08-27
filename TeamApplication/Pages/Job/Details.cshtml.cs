@@ -12,9 +12,9 @@ namespace TeamApplication
 {
     public class DetailsJob : PageModel
     {
-        private readonly TeamApplication.Data.SementesApplicationContext _context;
+        private readonly SementesApplicationContext _context;
 
-        public DetailsJob(TeamApplication.Data.SementesApplicationContext context)
+        public DetailsJob(SementesApplicationContext context)
         {
             _context = context;
         }
@@ -29,7 +29,8 @@ namespace TeamApplication
             }
 
             Job = await _context.Job
-                .Include(j => j.Entity).FirstOrDefaultAsync(m => m.JobId == id);
+                .Include(j => j.Entity)
+                .FirstOrDefaultAsync(m => m.JobId == id);
 
             if (Job == null)
             {

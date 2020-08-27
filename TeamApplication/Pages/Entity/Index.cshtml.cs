@@ -23,7 +23,7 @@ namespace TeamApplication
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
-        public PaginatedList<Entity> Entities { get;set; }
+        public PaginatedList<Entity> Entities { get; set; }
 
         public async Task OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)

@@ -8,25 +8,25 @@ namespace TeamApplication.Models
         [Key]
         public int JobId { get; set; }
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Data do trabalho:")]
+        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Data:")]
         [DataType(DataType.Date)]
         public DateTime JobDay { get; set; }
         [Required]
         [StringLength(1)]
-        [Display(Name = "Periodo da trbalho (M, T, N):")]
+        [Display(Name = "Periodo:")]
         public char JobPeriod { get; set; } //M, T, N
 
         [Required]
         [EnumDataType(typeof(ActionKind))]
-        [Display(Name = "Tipo do trabalho:")]
+        [Display(Name = "Tipo:")]
         public ActionKind ActionKind { get; set; }
 
-        [Display(Name = "Máximo de voluntários:")]
+        [Display(Name = "Nº Volunt.:")]
         public int MaxVolunteer { get; private set; }
         //Onde Entity has many Jobs
         [Required]
-        [Display(Name = "Entidade onde será executado:")]
+        [Display(Name = "Entidade:")]
         public int EntityId { get; set; }
         public Entity Entity { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,8 @@ namespace TeamApplication
 
         [BindProperty]
         public Job Job { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public string ErrorMessage { get; set; }
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
@@ -27,12 +28,19 @@ namespace TeamApplication
             }
 
             Job = await _context.Job
-                .Include(j => j.Entity).FirstOrDefaultAsync(m => m.JobId == id);
+                .Include(j => j.Entity)
+                .FirstOrDefaultAsync(m => m.JobId == id);
 
             if (Job == null)
             {
                 return NotFound();
             }
+            
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ErrorMessage = "Could not perform Delete on record id: " + id;
+            }
+
             return Page();
         }
 
@@ -43,15 +51,30 @@ namespace TeamApplication
                 return NotFound();
             }
 
-            Job = await _context.Job.FindAsync(id);
-
-            if (Job != null)
+            var jobToRemove = await _context.Job.FindAsync(id);
+            
+            if (jobToRemove == null)
             {
-                _context.Job.Remove(Job);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.Job.Remove(jobToRemove);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(ErrorMessage);
+                sb.AppendLine(ex.ToString());
+
+                ErrorMessage = sb.ToString();
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction("./Delete",
+                                     new { id, saveChangesError = true });
+            }
         }
     }
 }

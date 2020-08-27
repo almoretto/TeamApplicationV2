@@ -29,30 +29,49 @@ namespace TeamApplication
             }
 
             Job = await _context.Job
-                .Include(j => j.Entity).FirstOrDefaultAsync(m => m.JobId == id);
+                .Include(j => j.Entity)
+                .FirstOrDefaultAsync(m => m.JobId == id);
 
             if (Job == null)
             {
                 return NotFound();
             }
-           ViewData["EntityId"] = new SelectList(_context.Entity, "EntityId", "Contact");
+           ViewData["EntityId"] = new SelectList(_context.Entity, "EntityId", "EntityName");
+
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(Job).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                var jobToUpdate = await _context.Job.FindAsync(id);
+
+
+                if (jobToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                if (await TryUpdateModelAsync<Job>(
+                    jobToUpdate,
+                    "Job",
+                    s => s.JobDay,
+                    s => s.JobPeriod,
+                    s => s.ActionKind,
+                    s => s.EntityId))
+                {
+                    jobToUpdate.SetMaxVolunteer(jobToUpdate.Entity.MaxVolunteer);
+                    await _context.SaveChangesAsync();
+                    return RedirectToPage("./Index");
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -66,7 +85,7 @@ namespace TeamApplication
                 }
             }
 
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool JobExists(int id)

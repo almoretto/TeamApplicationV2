@@ -10,29 +10,45 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Job[0].JobDay)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Jobs[0].JobDay)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Job[0].JobPeriod)
+                @Html.DisplayNameFor(model => model.Jobs[0].JobPeriod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Job[0].ActionKind)
+                @Html.DisplayNameFor(model => model.Jobs[0].ActionKind)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Job[0].MaxVolunteer)
+                @Html.DisplayNameFor(model => model.Jobs[0].MaxVolunteer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Job[0].Entity)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Jobs[0].Entity.EntityName)
+                </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Job) {
+@foreach (var item in Model.Jobs) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.JobDay)
@@ -47,7 +63,7 @@
                 @Html.DisplayFor(modelItem => item.MaxVolunteer)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Entity.Contact)
+                @Html.DisplayFor(modelItem => item.Entity.EntityName)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.JobId">Edit</a> |

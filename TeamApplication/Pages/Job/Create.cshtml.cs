@@ -18,7 +18,7 @@ namespace TeamApplication
 
         public IActionResult OnGet()
         {
-        ViewData["EntityId"] = new SelectList(_context.Entity, "EntityId", "Contact");
+        ViewData["EntityId"] = new SelectList(_context.Entity, "EntityId", "EntityName");
             return Page();
         }
 
@@ -34,10 +34,23 @@ namespace TeamApplication
                 return Page();
             }
 
-            _context.Job.Add(Job);
-            await _context.SaveChangesAsync();
+            var emptyJob = new Job();
 
-            return RedirectToPage("./Index");
+            if (await TryUpdateModelAsync<Job>(
+                emptyJob,
+                "Job",   // Prefix for form value.
+                    s => s.JobDay,
+                    s => s.JobPeriod,
+                    s => s.ActionKind,
+                    s => s.EntityId))
+            {
+                emptyJob.SetMaxVolunteer(emptyJob.Entity.MaxVolunteer);
+                _context.Job.Add(emptyJob);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            return Page();
         }
     }
 }

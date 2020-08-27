@@ -40,6 +40,7 @@ namespace TeamApplication
             {
                 ErrorMessage = "Could not perform Delete on record id: " + id;
             }
+
             return Page();
         }
 
