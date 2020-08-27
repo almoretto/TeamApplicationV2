@@ -1,5 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace TeamApplication.Models
 {
@@ -15,7 +19,7 @@ namespace TeamApplication.Models
         [Required]
         [StringLength(1)]
         [Display(Name = "Periodo:")]
-        public char JobPeriod { get; set; } //M, T, N
+        public string JobPeriod { get; set; } //M, T, N
 
         [Required]
         [EnumDataType(typeof(ActionKind))]
@@ -23,7 +27,7 @@ namespace TeamApplication.Models
         public ActionKind ActionKind { get; set; }
 
         [Display(Name = "Nº Volunt.:")]
-        public int MaxVolunteer { get; private set; }
+        public int MaxVolunteer { get; set; }
         //Onde Entity has many Jobs
         [Required]
         [Display(Name = "Entidade:")]
@@ -32,10 +36,6 @@ namespace TeamApplication.Models
 
         //Relation one Job has one Team
         public Team Team { get; set; }
-       
-        public void SetMaxVolunteer(int max)
-        {
-            MaxVolunteer = max;
-        }
+
     }
 }

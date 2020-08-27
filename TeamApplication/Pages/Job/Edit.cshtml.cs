@@ -36,7 +36,7 @@ namespace TeamApplication
             {
                 return NotFound();
             }
-           ViewData["EntityId"] = new SelectList(_context.Entity, "EntityId", "EntityName");
+            ViewData["EntityId"] = new SelectList(_context.Entity, "EntityId", "EntityName");
 
             return Page();
         }
@@ -66,9 +66,10 @@ namespace TeamApplication
                     s => s.JobDay,
                     s => s.JobPeriod,
                     s => s.ActionKind,
-                    s => s.EntityId))
+                    s => s.EntityId,
+                    s => s.MaxVolunteer))
                 {
-                    jobToUpdate.SetMaxVolunteer(jobToUpdate.Entity.MaxVolunteer);
+
                     await _context.SaveChangesAsync();
                     return RedirectToPage("./Index");
                 }
