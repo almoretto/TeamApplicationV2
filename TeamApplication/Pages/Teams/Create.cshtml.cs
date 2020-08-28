@@ -5,14 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
+using TeamApplication.Classes;
 
 namespace TeamApplication
 {
     public class CreateTeam : PageModel
     {
         private readonly SementesApplicationContext _context;
+       // public IEnumerable<ListItem> ListOfVolunteers { get; set; }
 
         public CreateTeam(SementesApplicationContext context)
         {
@@ -21,7 +24,10 @@ namespace TeamApplication
 
         public IActionResult OnGet()
         {
-        ViewData["JobId"] = new SelectList(_context.Job, "JobId", "JobPeriod");
+
+            ViewData["JobId"] = new SelectList(_context.Job, "JobId", "JobDay");
+           
+           
             return Page();
         }
 
