@@ -1,0 +1,63 @@
+﻿@page
+@model TeamApplication.IndexTeam
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Teams[0].Job.Entity.EntityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teams[0].Job.JobDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teams[0].Job.JobPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teams[0].Volunteers)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Teams) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Job.Entity.EntityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Job.JobDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Job.JobPeriod)
+            </td>
+            @foreach (var v in Model.Volunteers)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => v.Volunteer.VName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => v.TeamId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => v.Team.TeamId)
+                </td>
+            }
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.TeamId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.TeamId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.TeamId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
