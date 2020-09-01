@@ -20,6 +20,7 @@ namespace TeamApplication
         }
 
         public Team Team { get; set; }
+        public IQueryable<TeamVolunteer> TeamVolunteers { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,7 +30,14 @@ namespace TeamApplication
             }
 
             Team = await _context.Team
-                .Include(t => t.Job).FirstOrDefaultAsync(m => m.TeamId == id);
+                .Include(t => t.Job)
+                .ThenInclude(u=>u.Entity)
+                .FirstOrDefaultAsync(m => m.TeamId == id);
+            TeamVolunteers = from v in _context.TeamVolunteer
+                             join x in _context.Volunteer on v.VolunteerId equals x.VolunteerId
+                             join y in _context.Team on v.TeamId equals y.TeamId
+                             select v;
+
 
             if (Team == null)
             {

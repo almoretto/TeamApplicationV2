@@ -21,6 +21,7 @@ namespace TeamApplication
 
         public IList<Team> Teams { get; set; }
         public IList<TeamVolunteer> Volunteers { get; set; }
+        
 
         public async Task OnGetAsync()
         {
@@ -33,8 +34,12 @@ namespace TeamApplication
             Volunteers = await _context.TeamVolunteer
                   .Include(a => a.Volunteer)
                   .Include(b => b.Team)
-                  .Where(c=>c.TeamId==c.Team.TeamId)
+                  .Where(c => c.TeamId == c.Team.TeamId)
+                  .OrderBy(d => d.Volunteer.VName)
                   .ToListAsync();
+
+            
+
 
 
         }

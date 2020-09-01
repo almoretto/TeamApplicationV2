@@ -15,8 +15,9 @@ namespace TeamApplication
     public class CreateTeam : PageModel
     {
         private readonly SementesApplicationContext _context;
-       // public IEnumerable<ListItem> ListOfVolunteers { get; set; }
 
+        [BindProperty]
+        public Team Team { get; set; }
         public CreateTeam(SementesApplicationContext context)
         {
             _context = context;
@@ -24,15 +25,19 @@ namespace TeamApplication
 
         public IActionResult OnGet()
         {
+            
+            
+            var ListItems = from j in _context.Job
+                            .Include(k => k.Entity)
+                            .OrderBy(k => k.Entity.EntityName)
+                            select j;
+            ViewData["JobId"] = new SelectList(ListItems, "JobId", "JobDay", "Entity.EntityName", "Entity.EntityName");
+            ViewData["VolunteerId"] = new MultiSelectList(_context.Volunteer, "VolunteerId", "VName");
 
-            ViewData["JobId"] = new SelectList(_context.Job, "JobId", "JobDay");
-           
-           
+            //_context.Job, "JobId", "JobDay"
             return Page();
         }
 
-        [BindProperty]
-        public Team Team { get; set; }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
@@ -42,11 +47,19 @@ namespace TeamApplication
             {
                 return Page();
             }
-
             _context.Team.Add(Team);
             await _context.SaveChangesAsync();
+            foreach (int v in Team.Volunteers)
+            {
+                var emptyTeamVolunteer = new TeamVolunteer();
+                emptyTeamVolunteer.VolunteerId = v;
+                emptyTeamVolunteer.TeamId = Team.TeamId;
 
+                _context.TeamVolunteer.Add(emptyTeamVolunteer);
+            }
+            await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }
     }
 }
+

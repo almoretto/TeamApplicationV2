@@ -17,6 +17,7 @@ namespace TeamApplication.Models
         [Display(Name = "Equipe:")]
         public int TeamId { get; set; }
         public Team Team { get; set; }
-        
+
+     
     }
 }

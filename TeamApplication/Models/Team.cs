@@ -8,9 +8,9 @@ namespace TeamApplication.Models
     {
         [Key]
         public int TeamId { get; set; }
-        [Required]
         [Display(Name = "Voluntários")]
-        public List<Volunteer> Volunteers { get; set; } = new List<Volunteer>();
+        [NotMapped]
+        public List<int> Volunteers { get; set; } 
 
         //Relation Many to Many Auxiliary Class TeamVolunteer
         public ICollection<TeamVolunteer> TeamVolunteer { get; set; }

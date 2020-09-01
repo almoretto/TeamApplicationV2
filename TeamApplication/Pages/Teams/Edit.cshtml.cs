@@ -22,7 +22,7 @@ namespace TeamApplication
 
         [BindProperty]
         public Team Team { get; set; }
-
+        public IQueryable<TeamVolunteer> TeamVolunteerToUpdate { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -31,30 +31,65 @@ namespace TeamApplication
             }
 
             Team = await _context.Team
-                .Include(t => t.Job).FirstOrDefaultAsync(m => m.TeamId == id);
+                .Include(t => t.Job)
+                .FirstOrDefaultAsync(m => m.TeamId == id);
+
+
+            TeamVolunteerToUpdate = from t in _context.TeamVolunteer
+                              where t.TeamId == id
+                              select t;
 
             if (Team == null)
             {
                 return NotFound();
             }
-           ViewData["JobId"] = new SelectList(_context.Job, "JobId", "JobPeriod");
+            var ListItems = from j in _context.Job
+                             .Include(k => k.Entity)
+                             .OrderBy(k => k.Entity.EntityName)
+                            select j;
+            ViewData["JobId"] = new SelectList(ListItems, "JobId", "JobDay", "Entity.EntityName", "Entity.EntityName");
+            ViewData["VolunteerId"] = new MultiSelectList(_context.Volunteer, "VolunteerId", "VName");
+
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(Team).State = EntityState.Modified;
-
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                var TeamToUpdate = await _context.Team.FindAsync(id);
+
+
+                if (TeamToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                await TryUpdateModelAsync<Team>(TeamToUpdate);
                 await _context.SaveChangesAsync();
+
+                int count = Team.Volunteers.Count();
+                int i = 0;
+                foreach (TeamVolunteer item in TeamVolunteerToUpdate)
+                {
+                    if (i >= count)
+                    {
+                        break;
+                    }
+                    item.TeamVolunteerId = Team.Volunteers[i];
+                    await TryUpdateModelAsync<TeamVolunteer>(item);
+                    i++;
+                    
+                }
+                await _context.SaveChangesAsync();
+
             }
             catch (DbUpdateConcurrencyException)
             {

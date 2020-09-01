@@ -11,53 +11,66 @@
     <a asp-page="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Teams[0].Job.Entity.EntityName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Teams[0].Job.JobDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Teams[0].Job.JobPeriod)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Teams[0].Volunteers)
-            </th>
-            <th></th>
+
+    @foreach (var group in Model.Teams.GroupBy(x => x.Job.Entity.EntityName))
+    {
+        <tr class="group-header">
+            <td colspan="6">
+                <span class="h6">@group.Key</span>
+            </td>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Teams) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Job.Entity.EntityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Job.JobDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Job.JobPeriod)
-            </td>
-            @foreach (var v in Model.Volunteers)
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Teams[0].Job.JobDay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Teams[0].Job.JobPeriod)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Teams[0].Volunteers)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var item in group)
+        {
+            <tr>
+                <td>
+                    <strong> @Html.DisplayFor(modelItem => item.Job.JobDay)</strong>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Job.JobPeriod)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.TeamId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.TeamId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.TeamId">Delete</a>
+                </td>
+            </tr>
+            <tr>
+            </tr>
+            @foreach (var v in Model.Volunteers.Where(x => x.TeamId == item.TeamId))
             {
-                <td>
-                    @Html.DisplayFor(modelItem => v.Volunteer.VName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.TeamId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.Team.TeamId)
-                </td>
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Volunteer.VName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.TeamId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Team.TeamId)
+                    </td>
+                    <td></td>
+                    <td></td>
+
+                </tr>
+
             }
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.TeamId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.TeamId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.TeamId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+        }
+    }
+
+
 </table>
