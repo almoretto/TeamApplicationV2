@@ -1,0 +1,88 @@
+﻿@page
+@model TeamApplication.Schedule_Volunteer_ViewModel
+
+@{
+    ViewData["Title"] = "Schedule_Volunteer_View";
+}
+
+<h1>Schedule_Volunteer_View</h1>
+
+<h4>Volunteer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VDocCPF" class="control-label"></label>
+                <input asp-for="Volunteer.VDocCPF" class="form-control" />
+                <span asp-validation-for="Volunteer.VDocCPF" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VDocRG" class="control-label"></label>
+                <input asp-for="Volunteer.VDocRG" class="form-control" />
+                <span asp-validation-for="Volunteer.VDocRG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VName" class="control-label"></label>
+                <input asp-for="Volunteer.VName" class="form-control" />
+                <span asp-validation-for="Volunteer.VName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VBirthDate" class="control-label"></label>
+                <input asp-for="Volunteer.VBirthDate" class="form-control" />
+                <span asp-validation-for="Volunteer.VBirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VAge" class="control-label"></label>
+                <input asp-for="Volunteer.VAge" class="form-control" />
+                <span asp-validation-for="Volunteer.VAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VResumee" class="control-label"></label>
+                <input asp-for="Volunteer.VResumee" class="form-control" />
+                <span asp-validation-for="Volunteer.VResumee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VPhone" class="control-label"></label>
+                <input asp-for="Volunteer.VPhone" class="form-control" />
+                <span asp-validation-for="Volunteer.VPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Volunteer.VMessagePhone" /> @Html.DisplayNameFor(model => model.Volunteer.VMessagePhone)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VEmail" class="control-label"></label>
+                <input asp-for="Volunteer.VEmail" class="form-control" />
+                <span asp-validation-for="Volunteer.VEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.VSocialMidiaProfile" class="control-label"></label>
+                <input asp-for="Volunteer.VSocialMidiaProfile" class="form-control" />
+                <span asp-validation-for="Volunteer.VSocialMidiaProfile" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Volunteer.VActive" /> @Html.DisplayNameFor(model => model.Volunteer.VActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Volunteer.AddressId" class="control-label"></label>
+                <select asp-for="Volunteer.AddressId" class ="form-control" asp-items="ViewBag.AddressId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
