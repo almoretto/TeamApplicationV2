@@ -12,10 +12,16 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Team.Job)
+            @Html.DisplayNameFor(model => model.Team.Job.Entity.EntityName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Team.Job.JobPeriod)
+            @Html.DisplayFor(model => model.Team.Job.Entity.EntityName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.Job.JobDay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.Job.JobDay) - @Html.DisplayFor(model => model.Team.Job.JobPeriod)
         </dd>
     </dl>
     

@@ -22,7 +22,7 @@ namespace TeamApplication
 
         [BindProperty]
         public Team Team { get; set; }
-        public IQueryable<TeamVolunteer> TeamVolunteerToUpdate { get; set; }
+        public IList<TeamVolunteer> TeamVolunteerToUpdate { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -35,9 +35,7 @@ namespace TeamApplication
                 .FirstOrDefaultAsync(m => m.TeamId == id);
 
 
-            TeamVolunteerToUpdate = from t in _context.TeamVolunteer
-                              where t.TeamId == id
-                              select t;
+            TeamVolunteerToUpdate = await _context.TeamVolunteer.Where(t => t.TeamId == id).ToListAsync();
 
             if (Team == null)
             {
@@ -66,6 +64,7 @@ namespace TeamApplication
 
                 var TeamToUpdate = await _context.Team.FindAsync(id);
 
+                TeamVolunteerToUpdate = await _context.TeamVolunteer.Where(t => t.TeamId == id).ToListAsync();
 
                 if (TeamToUpdate == null)
                 {
@@ -77,16 +76,30 @@ namespace TeamApplication
 
                 int count = Team.Volunteers.Count();
                 int i = 0;
+                int contTv = TeamVolunteerToUpdate.Count();
+
                 foreach (TeamVolunteer item in TeamVolunteerToUpdate)
                 {
-                    if (i >= count)
+                    
+                    if (i > count)
                     {
                         break;
                     }
-                    item.TeamVolunteerId = Team.Volunteers[i];
+                    item.VolunteerId = Team.Volunteers[i];
                     await TryUpdateModelAsync<TeamVolunteer>(item);
                     i++;
-                    
+
+                }
+                if (contTv < count)
+                {
+                    var emptyTeamVolunteer = new TeamVolunteer
+                    {
+                        VolunteerId = Team.Volunteers[i],
+                        TeamId = Team.TeamId
+                    };
+
+                    _context.TeamVolunteer.Add(emptyTeamVolunteer);
+
                 }
                 await _context.SaveChangesAsync();
 

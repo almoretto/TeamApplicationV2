@@ -51,9 +51,11 @@ namespace TeamApplication
             await _context.SaveChangesAsync();
             foreach (int v in Team.Volunteers)
             {
-                var emptyTeamVolunteer = new TeamVolunteer();
-                emptyTeamVolunteer.VolunteerId = v;
-                emptyTeamVolunteer.TeamId = Team.TeamId;
+                var emptyTeamVolunteer = new TeamVolunteer
+                {
+                    VolunteerId = v,
+                    TeamId = Team.TeamId
+                };
 
                 _context.TeamVolunteer.Add(emptyTeamVolunteer);
             }

@@ -8,16 +8,38 @@
 <h2>Team Details</h2>
 
 <div>
-    
+
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Team.Job)
-        </dt>
+    <dl class="group-header">
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Team.Job.JobPeriod)
+            <h6 class="font-weight-bold">@Html.DisplayFor(model => model.Team.Job.Entity.EntityName)</h6>
         </dd>
     </dl>
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Team.Job)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Team.Job.JobDay) -  @Html.DisplayFor(model => model.Team.Job.JobPeriod)
+        </dd>
+
+    </dl>
+    <dl class="group-header">
+        <dd class="col-sm-10">
+            <h6 class="font-weight-bold">Time</h6>
+        </dd>
+    </dl>
+    @foreach (var v in Model.Volunteers.Where(x => x.TeamId == Model.Team.TeamId))
+    {
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(modelItem => v.Volunteer.VName)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => v.Volunteer.VName) - @Html.DisplayFor(model => v.Volunteer.VPhone)
+            </dd>
+        </dl>
+    }
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Team.TeamId">Edit</a> |
