@@ -2,12 +2,12 @@
 @model TeamApplication.CreateCity
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Criar Cidade";
 }
 
-<h2>Create City</h2>
+<h3>Criar Nova Cidade</h3>
 <p></p>
-<a asp-page="/State/Create">Create State</a>
+<a asp-page="/State/Create">+Novo UF</a>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,14 +23,14 @@
                 <select asp-for="City.StateId" class ="form-control" asp-items="ViewBag.StateId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Criar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="Index">Voltar</a>
 </div>
 
 @section Scripts {

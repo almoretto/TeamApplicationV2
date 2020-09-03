@@ -2,21 +2,21 @@
 @model TeamApplication.IndexState
 
 @{
-    ViewData["Title"] = "States";
+    ViewData["Title"] = "Estados";
 }
 
-<h2>States</h2>
+<h3>Estados</h3>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">+Novo</a>
 </p>
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by State Name or Abreviation:
+            Pesquisa por Nome ou Sigla:
             <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
+            <input type="submit" value="Pesquisar" class="btn btn-primary" /> |
+            <a asp-page="./Index">Retornar para lista</a>
         </p>
     </div>
 </form>
@@ -46,9 +46,9 @@
                     @Html.DisplayFor(modelItem => item.UFName)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.StateId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.StateId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.StateId">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.StateId">Editar</a> |
+                    <a asp-page="./Details" asp-route-id="@item.StateId">Abrir</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.StateId">Deletar</a>
                 </td>
             </tr>
         }
@@ -64,12 +64,12 @@
    asp-route-pageIndex="@(Model.States.PageIndex - 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @prevDisabled">
-    Previous
+    Anterior
 </a>
 <a asp-page="./Index"
    asp-route-sortOrder="@Model.CurrentSort"
    asp-route-pageIndex="@(Model.States.PageIndex + 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @nextDisabled">
-    Next
+    Próxima
 </a>

@@ -171,27 +171,27 @@ namespace TeamApplication.Classes
                         new City
                         {
                             CityName = "São José do Rio Preto",
-                            StateId = 25
+                            StateId = 2
                         },
                         new City
                         {
                             CityName = "Mirassol",
-                            StateId = 25
+                            StateId = 2
                         },
                         new City
                         {
                             CityName = "Bady Bassit",
-                            StateId = 25
+                            StateId = 2
                         },
                         new City
                         {
                             CityName = "José Bonifácio",
-                            StateId = 25
+                            StateId = 2
                         },
                         new City
                         {
                             CityName = "Ubarana",
-                            StateId = 25
+                            StateId = 2
                         }
                         );
                     context.SaveChanges();

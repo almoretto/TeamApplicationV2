@@ -9,7 +9,7 @@ namespace TeamApplication.Models
 
         [Required]
         [EnumDataType(typeof(AddressKind))]
-        [Display(Name ="Tipo Logradouro - R, Av:")]
+        [Display(Name ="Tipo - R, Av:")]
         public AddressKind AddressKind { get; set; }
         [Required]
         [StringLength(120)]

@@ -2,22 +2,22 @@
 @model TeamApplication.IndexJobs
 
 @{
-    ViewData["Title"] = "Jobs";
+    ViewData["Title"] = "Ações Voluntárias";
 }
 
-<h1>Jobs</h1>
+<h3>Ações Voluntárias</h3>
 
 <p>
-    <a asp-page="Create">Create New</a>
-    <a asp-page="/Teams/Create">Create Team</a>
+    <a asp-page="Create">+Ação</a>
+    <a asp-page="/Teams/Create">+Time</a>
 </p>
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by Name:
+            Pesquisar por Nome:
             <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
+            <input type="submit" value="Pesquisar" class="btn btn-primary" /> |
+            <a asp-page="./Index">Voltar</a>
         </p>
     </div>
 </form>
@@ -67,9 +67,9 @@
                 @Html.DisplayFor(modelItem => item.Entity.EntityName)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.JobId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.JobId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.JobId">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.JobId">Editar</a> |
+                <a asp-page="./Details" asp-route-id="@item.JobId">Abrir</a> |
+                <a asp-page="./Delete" asp-route-id="@item.JobId">Excluir</a>
             </td>
         </tr>
 }

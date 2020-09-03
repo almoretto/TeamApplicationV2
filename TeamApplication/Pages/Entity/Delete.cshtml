@@ -2,14 +2,15 @@
 @model TeamApplication.DeleteEntity
 
 @{
-    ViewData["Title"] = "Delete Entity";
+    ViewData["Title"] = "Excluir Entidade";
 }
 
-<h2>Delete Entity</h2>
+<h3>Excluir Entidade</h3>
 
-<h3>Are you sure you want to delete this?</h3>
+<h4>Você tem certeza que quer excluir este registro? </h4>
+<h6>A operação é irreversível!</h6>
 <div>
-   
+
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -67,10 +68,10 @@
             @Html.DisplayFor(model => model.Entity.Email)
         </dd>
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="Entity.EntityId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <input type="submit" value="Excluir" class="btn btn-danger" /> |
+        <a asp-page="./Index">Voltar</a>
     </form>
 </div>

@@ -2,23 +2,23 @@
 @model TeamApplication.IndexCity
 
 @{
-    ViewData["Title"] = "City";
+    ViewData["Title"] = "Cidades";
 }
 
-<h2>City</h2>
+<h3>Cidades</h3>
 
 <p>
-    <a asp-page="Create">Create City |</a>
-    <a asp-page="/State/Create">Create State</a>
+    <a asp-page="Create">+Cidade |</a>
+    <a asp-page="/State/Create">+UF</a>
 
 </p>
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by City Name, State:
+            Pesquisa por Nome da Cidade ou Estado:
             <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
+            <input type="submit" value="Pesquisar" class="btn btn-primary" /> |
+            <a asp-page="./Index">Voltar</a>
         </p>
     </div>
 </form>
@@ -51,9 +51,9 @@
                     @Html.DisplayFor(modelItem => item.State.UFAbreviation)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.CityId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.CityId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.CityId">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.CityId">Editar</a> |
+                    <a asp-page="./Details" asp-route-id="@item.CityId">Abrir</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CityId">Deletar</a>
                 </td>
             </tr>
         }
@@ -69,12 +69,12 @@
    asp-route-pageIndex="@(Model.Cities.PageIndex - 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @prevDisabled">
-    Previous
+    Anterior
 </a>
 <a asp-page="./Index"
    asp-route-sortOrder="@Model.CurrentSort"
    asp-route-pageIndex="@(Model.Cities.PageIndex + 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @nextDisabled">
-    Next
+    Próxima
 </a>

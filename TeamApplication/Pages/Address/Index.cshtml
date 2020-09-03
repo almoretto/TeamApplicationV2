@@ -2,22 +2,22 @@
 @model TeamApplication.IndexAddress
 
 @{
-    ViewData["Title"] = "Addresses";
+    ViewData["Title"] = "Endereços";
 }
 
-<h2>Addresses</h2>
+<h2>Endereços</h2>
 
 <p>
-    <a asp-page="Create">Create Address |</a>
-    <a asp-page="/City/Create">Create City</a>
+    <a asp-page="Create">+Endereço |</a>
+    <a asp-page="/City/Create">+Cidade</a>
 </p>
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by Designation Address, City Name:
+            Pesquisa por logradouro e cidade:
             <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
+            <input type="submit" value="Pesquisar" class="btn btn-primary" /> |
+            <a asp-page="./Index">Voltar</a>
         </p>
     </div>
 </form>
@@ -56,9 +56,9 @@
                     @Html.DisplayFor(modelItem => item.City.CityName)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.AddressId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.AddressId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.AddressId">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.AddressId">Editar</a> |
+                    <a asp-page="./Details" asp-route-id="@item.AddressId">Abrir</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.AddressId">Deletar</a>
                 </td>
             </tr>
         }
@@ -74,12 +74,12 @@
    asp-route-pageIndex="@(Model.Addresses.PageIndex - 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @prevDisabled">
-    Previous
+    Anterior
 </a>
 <a asp-page="./Index"
    asp-route-sortOrder="@Model.CurrentSort"
    asp-route-pageIndex="@(Model.Addresses.PageIndex + 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @nextDisabled">
-    Next
+    Próximo
 </a>
