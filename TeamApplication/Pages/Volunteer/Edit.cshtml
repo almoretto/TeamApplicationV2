@@ -2,10 +2,10 @@
 @model TeamApplication.EditVolunteer
 
 @{
-    ViewData["Title"] = "Edit Volunteer";
+    ViewData["Title"] = "Editar Voluntário";
 }
 
-<h1>Edit Volunteer</h1>
+<h3>Editar Voluntário</h3>
 
 <hr />
 <div class="row">
@@ -70,14 +70,14 @@
                 <span asp-validation-for="Volunteer.AddressId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Voltar</a>
 </div>
 
 @section Scripts {

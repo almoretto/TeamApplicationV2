@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TeamApplication.Data;
 using TeamApplication.Models;
-using TeamApplication.Classes;
 
 namespace TeamApplication
 {
@@ -25,22 +22,29 @@ namespace TeamApplication
 
         public IActionResult OnGet()
         {
-            
-            
-            var ListItems = from j in _context.Job
+
+
+            var ListJobs = from j in _context.Job
                             .Include(k => k.Entity)
                             .OrderBy(k => k.Entity.EntityName)
-                            select j;
-            ViewData["JobId"] = new SelectList(ListItems, "JobId", "JobDay", "Entity.EntityName", "Entity.EntityName");
-            ViewData["VolunteerId"] = new MultiSelectList(_context.Volunteer, "VolunteerId", "VName");
+                           select j;
 
-            //_context.Job, "JobId", "JobDay"
+            ViewData["JobId"] = new SelectList(ListJobs, "JobId", "JobDay", "Entity.EntityName", "Entity.EntityName");
+           
+            var ListVolunteers = from v in _context.Volunteer
+                                 join s in _context.Schedule on v.VolunteerId equals s.VolunteerId
+                                 join j in _context.Job on s.TSDate equals j.JobDay
+                                 select new
+                                 {
+                                     v.VolunteerId,
+                                     v.VName
+                                 };
+            ViewData["VolunteerId"] = new MultiSelectList(ListVolunteers, "VolunteerId", "VName");
+
+
             return Page();
         }
 
-
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -49,18 +53,8 @@ namespace TeamApplication
             }
             _context.Team.Add(Team);
             await _context.SaveChangesAsync();
-            foreach (int v in Team.Volunteers)
-            {
-                var emptyTeamVolunteer = new TeamVolunteer
-                {
-                    VolunteerId = v,
-                    TeamId = Team.TeamId
-                };
 
-                _context.TeamVolunteer.Add(emptyTeamVolunteer);
-            }
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

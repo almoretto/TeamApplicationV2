@@ -2,27 +2,25 @@
 @model TeamApplication.IndexVolunteer
 
 @{
-    ViewData["Title"] = "Volunteers";
+    ViewData["Title"] = "Voluntários";
 }
 
-<h2>Volunteers</h2>
+<h3>Voluntários</h3>
 
 <p>
-    <a asp-page="Create">Create Volunteer |</a>
-    <a asp-page="/Address/Create">Create Address |</a>
-    <a asp-page="/City/Create">Create City</a>
-</p>
-<p>
-    <a asp-page="/City/Index">List Cities |</a>
-    <a asp-page="/Address/Index">List Addresses |</a>
+    <a asp-page="Create">+Novo |</a>
+    <a asp-page="/Address/Create">+Endereço |</a>
+    <a asp-page="/City/Create">+Cidade |</a>
+    <a asp-page="/City/Index">Listar Cidades |</a>
+    <a asp-page="/Address/Index">Listar Endereços |</a>
 </p>
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by Volunteer Name:
+            Pesquisa por Nome:
             <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
+            <input type="submit" value="Pesquisar" class="btn btn-primary" /> |
+            <a asp-page="./Index">Limpar</a>
         </p>
     </div>
 </form>
@@ -85,10 +83,10 @@
                     @Html.DisplayFor(modelItem => item.VActive)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.VolunteerId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.VolunteerId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.VolunteerId">Delete</a>
-                    <a asp-page="./Details" asp-route-id="@item.VolunteerId">Schedules</a>
+                    <a asp-page="./Edit" asp-route-id="@item.VolunteerId">Editar</a> |
+                    <a asp-page="./Details" asp-route-id="@item.VolunteerId">Abrir</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.VolunteerId">Excluir</a>
+                    <a asp-page="./Details" asp-route-id="@item.VolunteerId">Agendas</a>
                 </td>
             </tr>
         }
@@ -104,14 +102,14 @@
    asp-route-pageIndex="@(Model.Volunteers.PageIndex - 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @prevDisabled">
-    Previous
+    Anterior
 </a>
 <a asp-page="./Index"
    asp-route-sortOrder="@Model.CurrentSort"
    asp-route-pageIndex="@(Model.Volunteers.PageIndex + 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @nextDisabled">
-    Next
+    Próximo
 </a>
 <p></p>
-<p><a class="btn btn-primary" asp-page="/Schedule/Create">Schedule</a></p>
+<p><a class="btn btn-primary" asp-page="/Schedule/Create">Abrir Agenda</a></p>

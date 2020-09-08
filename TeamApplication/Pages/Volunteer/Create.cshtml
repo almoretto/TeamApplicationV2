@@ -2,10 +2,10 @@
 @model TeamApplication.CreateVolunteer
 
 @{
-    ViewData["Title"] = "Create Volunteer";
+    ViewData["Title"] = "Criar Voluntário";
 }
 
-<h2>Create Volunteer</h2>
+<h3>Criar Voluntário</h3>
 
 
 <hr />
@@ -70,14 +70,14 @@
                 <select asp-for="Volunteer.AddressId" class ="form-control" asp-items="ViewBag.AddressId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Criar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="Index">Voltar</a>
 </div>
 
 @section Scripts {
